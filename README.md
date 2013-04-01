@@ -19,5 +19,4 @@ The applicant will be required to:
 * Fork this project on their own GitHub. 
 * Implement their given task.
 * Create any necessary database objects. Create entities for those data objects, and map them properly in the Doctrine mapping files. 
-* Unit test any code that they write. 
 * Commit all code back to their own GitHub and send a link when finished.
