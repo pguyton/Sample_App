@@ -1,0 +1,10 @@
+Application\Model\Customer:
+  type: entity
+  table: customers
+  id:
+    id:
+      column: customer_id
+      type: integer
+  fields:
+    name:
+    description:

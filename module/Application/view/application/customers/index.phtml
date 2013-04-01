@@ -1,0 +1,13 @@
+
+<h2>Customers</h2>
+
+<ul>
+    <?php foreach ($this->customers as $customer): ?>
+    <li>
+        <a href="/customers/view/<?= $customer->getId() ?>">
+            <?= $customer->getName() ?>
+        </a> <br />
+        <?= nl2br($customer->getDescription()) ?>
+    </li>
+    <?php endforeach; ?>
+</ul>

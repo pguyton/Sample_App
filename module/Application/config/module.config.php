@@ -1,11 +1,8 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
+
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+use Application\Repository\CustomerRepository;
 
 return array(
     'router' => array(
@@ -20,17 +17,13 @@ return array(
                     ),
                 ),
             ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
             'application' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/application',
+                    'route'    => '/customers',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
+                        'controller'    => 'Customers',
                         'action'        => 'index',
                     ),
                 ),
@@ -52,9 +45,33 @@ return array(
             ),
         ),
     ),
+    'doctrine' => array(
+        'params' => array(
+            'driver' => 'pdo_sqlite',
+            'path' => realpath(__DIR__ . '/../../../data/sample.db')
+        )
+    ),
     'service_manager' => array(
         'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
+            'CustomerRepository' => function(Zend\ServiceManager\ServiceManager $sm) {
+                $em = $sm->get('EntityManager');
+                $repository = new CustomerRepository($em);
+                return $repository;
+            },
+            'EntityManager' => function(Zend\ServiceManager\ServiceManager $sm) {
+                $config = $sm->get('Config');
+
+                $em = EntityManager::create(
+                    $config['doctrine']['params'],
+                    Setup::createYAMLMetadataConfiguration(
+                        array(realpath(__DIR__ . '/../src/Application/Mapping')),
+                        true
+                    )
+                );
+
+                return $em;
+            },
         ),
     ),
     'translator' => array(
@@ -70,6 +87,15 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController'
+        ),
+        'factories' => array(
+            'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
+            'Application\Controller\Customers' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+                $customerRepository = $cm->getServiceLocator()->get('CustomerRepository');
+                return new Application\Controller\CustomersController(
+                    $customerRepository
+                );
+            },
         ),
     ),
     'view_manager' => array(
