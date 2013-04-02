@@ -17,7 +17,7 @@ return array(
                     ),
                 ),
             ),
-            'application' => array(
+            'customers' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/customers',
