@@ -1,0 +1,20 @@
+<h2>Customers</h2>
+<br>
+<h4> Create New Customer</h4>
+<form method="post">
+    <?php foreach ($this->form->getElements() as $element)
+    {
+        if($element->getName() != 'id' && $element->getName() != 'csrf')
+        {
+            if($element->getName() != 'submit')
+                echo $this->formLabel($element);
+            else {
+                echo "<br>";
+                $element->setValue('Create');
+            }
+            echo $this->formElement($element);
+            echo $this->formElementErrors($element);
+        }
+    }
+    ?>
+</form>

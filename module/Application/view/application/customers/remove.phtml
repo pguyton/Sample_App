@@ -1,0 +1,9 @@
+<h2>Customers</h2>
+    Are you sure you want to delete <br>
+    <?= $this->customer->getName(); ?>?
+    <br><br>
+<form method="post">
+    <?php $this->form->get('submit')->setValue('delete');?>
+    <?= $this->formElement($this->form->get('submit')); ?>
+    <?= $this->formElementErrors($this->form->get('submit')); ?>
+</form>

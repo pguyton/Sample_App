@@ -1,0 +1,42 @@
+<h2>Customers</h2>
+<br>
+<form method="post">
+<table class="customersTable" cellpadding="10px">
+    <tr>
+        <th align="left">Name</th>
+        <th align="left">Description</th>
+        <th align="left">Phone  </th>
+        <th align="left"> Address</th>
+        <th align="left"> City</th>
+        <th align="left"> State</th>
+        <th align="left"> Zip</th>
+    </tr>
+    <tr>
+        <td>
+            <?= $this->customer->getName() ?>
+        </td>
+        <td>
+             <?= $this->customer->getDescription() ?>
+        </td>
+        <td>
+            <?= $this->customer->getPhone() ?>
+        </td>
+        <td>
+            <?= $this->customer->getAddress() ?>
+        </td>
+        <td>
+            <?= $this->customer->getCity() ?>
+        </td>
+        <td>
+            <?= $this->customer->getState() ?>
+        </td>
+        <td>
+            <?= $this->customer->getZip() ?>
+        </td>
+    </tr>
+</table>
+<br>
+<?php $this->form->get('submit')->setValue('Go Back'); ?>
+<?= $this->formElement($this->form->get('submit')); ?>
+<?= $this->formElementErrors($this->form->get('submit')); ?>
+</form>
