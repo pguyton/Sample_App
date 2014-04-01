@@ -3,6 +3,7 @@
 namespace Application\Repository;
 
 use Doctrine\ORM\EntityManager;
+use Application\Model\Customer;
 
 /**
  * Class CustomerRepository
@@ -31,7 +32,51 @@ class CustomerRepository
     {
         return $this->entityManager->getRepository('Application\Model\Customer')->findBy(
             array(),
-            array('name' => 'asc')
+            array('id' => 'asc')
         );
+    }
+
+    /**
+     * Retrieve customer by id
+     * @param $id
+     * @return object
+     */
+    public function getById($id)
+    {
+        return $this->entityManager->find('Application\Model\Customer', ['id'=>$id]);
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    public function saveCustomer(Customer $customer)
+    {
+       // $customer->setId(9);
+        $this->entityManager->persist($customer);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    public function updateCustomer(Customer $customer, $data)
+    {
+
+        $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($this->entityManager,'Application\Model\Customer');
+
+        $data = $hydrator->extract($data);
+        $data['id'] =  $customer->getId();
+        $hydrator->hydrate($data, $customer);
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    public function removeCustomer(Customer $customer)
+    {
+        $this->entityManager->remove($customer);
+        $this->entityManager->flush();
     }
 }

@@ -5,6 +5,27 @@ Application\Model\Customer:
     id:
       column: customer_id
       type: integer
+      generator:
+       strategy: AUTO
   fields:
     name:
+      type: text
+      length: 100
     description:
+      type:  text
+      length: 255
+    phone:
+      type: text
+      length: 20
+    address:
+      type: string
+      length: 255
+    city:
+      type: string
+      length: 50
+    state:
+      type: string
+      length: 2
+    zip:
+      type: string
+      length: 5
